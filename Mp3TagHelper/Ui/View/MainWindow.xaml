@@ -7,12 +7,13 @@
     xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModel="clr-namespace:Mp3TagHelper.Ui.ViewModel"
-    Title="MP3 Tag Helper"
+    Title="{Binding WindowTitle}"
     Width="800"
     Height="800"
     mah:DialogParticipation.Register="{Binding}"
     BorderBrush="{DynamicResource MahApps.Brushes.Accent}"
     BorderThickness="1"
+    Loaded="MainWindow_OnLoaded"
     ResizeBorderThickness="1"
     ResizeMode="CanResizeWithGrip"
     TitleCharacterCasing="Normal"
@@ -23,7 +24,7 @@
 
     <DockPanel LastChildFill="True">
         <StatusBar DockPanel.Dock="Bottom">
-            <StatusBarItem Content="INFO" />
+            <StatusBarItem Content="{Binding Info}" />
         </StatusBar>
 
         <Grid>
@@ -33,6 +34,7 @@
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <!--  Source  -->
             <Border Grid.Row="0" Style="{StaticResource BorderStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -78,6 +80,7 @@
                 </Grid>
             </Border>
 
+            <!--  List / Details  -->
             <Border Grid.Row="1" Style="{StaticResource BorderStyle}">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -97,7 +100,7 @@
                         Grid.Row="0"
                         Grid.Column="0"
                         Grid.ColumnSpan="3"
-                        Content="MP3 files"
+                        Content="{Binding FileInfo}"
                         Style="{StaticResource Headline}" />
 
                     <Separator
@@ -109,20 +112,27 @@
                         Grid.Row="2"
                         Grid.Column="0"
                         Content="Files"
-                        Style="{StaticResource Headline}" />
+                        Style="{StaticResource HeadlineSmall}" />
 
                     <Label
                         Grid.Row="2"
                         Grid.Column="2"
                         Content="Details"
-                        Style="{StaticResource Headline}" />
+                        Style="{StaticResource HeadlineSmall}" />
 
                     <DataGrid
                         Grid.Row="3"
                         Grid.Column="0"
+                        CanUserAddRows="False"
+                        CanUserDeleteRows="False"
+                        IsReadOnly="True"
                         ItemsSource="{Binding Files}"
                         SelectedItem="{Binding SelectedFile}">
                         <DataGrid.Columns>
+                            <DataGridTextColumn
+                                Width="50"
+                                Binding="{Binding TrackNumber}"
+                                Header="#" />
                             <DataGridTextColumn
                                 Width="*"
                                 Binding="{Binding Name}"
@@ -149,6 +159,10 @@
 
                     <Grid Grid.Row="3" Grid.Column="2">
                         <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
@@ -267,10 +281,55 @@
                             HorizontalAlignment="Right"
                             Command="{Binding SaveFileDetailsCommand}"
                             Content="Save" />
+
+                        <Separator
+                            Grid.Row="10"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2" />
+
+                        <Label
+                            Grid.Row="11"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            Content="Player"
+                            Style="{StaticResource HeadlineSmall}" />
+                        <Label
+                            Grid.Row="11"
+                            Grid.Column="1"
+                            HorizontalAlignment="Center"
+                            Content="{Binding PlayInfo}" />
+                        <Slider
+                            Grid.Row="12"
+                            Grid.Column="1"
+                            Margin="3"
+                            IsEnabled="False"
+                            Maximum="{Binding SliderMax}"
+                            Value="{Binding SliderPosition}" />
+                        <StackPanel
+                            Grid.Row="13"
+                            Grid.Column="1"
+                            Orientation="Horizontal">
+                            <Button
+                                Width="60"
+                                Command="{Binding StartPlaybackCommand}"
+                                Content="Play"
+                                IsEnabled="{Binding ButtonPlayEnabled}" />
+                            <Button
+                                Width="60"
+                                Command="{Binding PausePlaybackCommand}"
+                                Content="Pause"
+                                IsEnabled="{Binding ButtonPauseEnabled}" />
+                            <Button
+                                Width="60"
+                                Command="{Binding StopPlaybackCommand}"
+                                Content="Stop"
+                                IsEnabled="{Binding ButtonStopEnabled}" />
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </Border>
 
+            <!--  General details  -->
             <Border Grid.Row="2" Style="{StaticResource BorderStyle}">
                 <Grid>
                     <Grid.RowDefinitions>

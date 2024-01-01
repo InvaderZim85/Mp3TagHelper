@@ -1,4 +1,6 @@
-﻿using MahApps.Metro.Controls;
+﻿using System.Windows;
+using MahApps.Metro.Controls;
+using Mp3TagHelper.Ui.ViewModel;
 
 namespace Mp3TagHelper.Ui.View;
 
@@ -13,5 +15,16 @@ public partial class MainWindow : MetroWindow
     public MainWindow()
     {
         InitializeComponent();
+    }
+
+    /// <summary>
+    /// Occurs when the form was loaded
+    /// </summary>
+    /// <param name="sender">The <see cref="MainWindow"/></param>
+    /// <param name="e">The event arguments</param>
+    private void MainWindow_OnLoaded(object sender, RoutedEventArgs e)
+    {
+        if (DataContext is MainWindowViewModel viewModel)
+            viewModel.InitViewModel();
     }
 }
