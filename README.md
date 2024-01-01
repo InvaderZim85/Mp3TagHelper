@@ -9,3 +9,7 @@ At the moment, the following files are supported:
 - ogg
 
 **Note**: The program is still in progress!
+
+## Icon
+
+Icon [Audio player icons created by Freepik - Flaticon](https://www.flaticon.com/free-icons/audio-player)

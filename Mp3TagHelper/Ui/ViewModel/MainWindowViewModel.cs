@@ -174,7 +174,7 @@ internal partial class MainWindowViewModel : ViewModelBase
             SourceDir = dialog.FolderName;
 
             var (files, generalDetails) = await DataManager.LoadFilesAsync(dialog.FolderName);
-            FileInfo = $"{files.Count} files loaded";
+            FileInfo = $"{files.Count} files loaded (total size: {files.Sum(s => s.Length).ConvertToFileSize(addBytes: true)})";
             Files = files.ToObservableCollection();
             GeneralDetails = generalDetails;
         }

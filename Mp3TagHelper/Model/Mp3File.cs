@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Mp3TagHelper.Common;
 using ZimLabs.CoreLib;
 
 namespace Mp3TagHelper.Model;
@@ -13,8 +14,6 @@ namespace Mp3TagHelper.Model;
 /// <param name="file">The original file</param>
 internal partial class Mp3File(FileInfo file) : ObservableObject
 {
-    
-
     /// <summary>
     /// Gets the name of the file
     /// </summary>
@@ -28,7 +27,12 @@ internal partial class Mp3File(FileInfo file) : ObservableObject
     /// <summary>
     /// Gets the size of the file
     /// </summary>
-    public string Size { get; } = file.ConvertToFileSize();
+    public string Size { get; } = file.Length.ConvertToFileSize();
+
+    /// <summary>
+    /// Gets the file length
+    /// </summary>
+    public long Length { get; } = file.Length;
 
     /// <summary>
     /// Gets or sets the title
